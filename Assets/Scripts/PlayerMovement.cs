@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController characterController;
+    public GameManager gameManager;
 
     public float speed = 5.0f;
     public float gravity = 2.0f;
@@ -17,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        characterController= GetComponent<CharacterController>();   
+        characterController= GetComponent<CharacterController>();    
     }
 
     // Update is called once per frame
@@ -30,6 +31,15 @@ public class PlayerMovement : MonoBehaviour
         if (!Physics.CheckSphere(groundCheck.position, _groundRadius, groundMask))
         {
             characterController.Move(-transform.up * Time.deltaTime * gravity);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Debug.Log("Collision with enemy, you have taken damage!");
+            gameManager.Lose();
         }
     }
 }
