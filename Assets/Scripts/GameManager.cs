@@ -9,14 +9,10 @@ public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI _timer; 
     public int _time = 60;
-    private int _currentTime = 0;
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = _currentTime; i < _time;)
-        {
             StartCoroutine(Timer(_time));
-        }
     }
 
     // Update is called once per frame
@@ -27,14 +23,12 @@ public class GameManager : MonoBehaviour
     IEnumerator Timer(int seconds)
     {
         Debug.Log("Timer of 60 seconds has started");
-        yield return new WaitForSeconds(1);
-        
-        if (_currentTime >= _time)
+        for(int i= 0; i <= seconds; i++) 
         {
-            Win();
+            yield return new WaitForSeconds(1);
+            _timer.text = "Time: " + (seconds - i);
         }
-        _currentTime++;
-        _timer.text = "Time: " + seconds;
+        Win();
         Debug.Log("Timer has ended");
     }
 
